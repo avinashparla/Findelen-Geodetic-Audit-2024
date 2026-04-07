@@ -1,0 +1,136 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- Essential Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}   % For professional table aesthetics
+\usepackage{hyperref}   % For clickable citations and URLs
+\usepackage{xurl}       % Advanced line-breaking for URLs and emails
+\usepackage{caption}
+\usepackage{float}      % Strict figure placement with [H]
+
+% --- Author & Institutional Affiliation ---
+\title{\textbf{The Vanishing Accumulation Zone: Geodetic Evidence of Terminal Disequilibrium at Findelengletscher (2021--2024)}}
+\author{
+	\textbf{Avinash Parla} \\
+	\small M.Tech, IIT Bombay \\
+	\small Independent Researcher \\
+	\small \url{avinashparla@gmail.com}
+}
+\date{\today}
+
+\begin{document}
+	
+	\maketitle
+	
+	\begin{abstract}
+		The European Alps are currently undergoing a period of unprecedented cryospheric instability, marked by a shift from gradual retreat to catastrophic volumetric collapse. This study provides a high-resolution geodetic audit of Findelengletscher, Switzerland, covering the anomalous period of 2021/22 to September 2024. Utilizing sub-meter LiDAR Digital Surface Models (DSMs), we quantify a specific mass balance of $-2.155 \pm 0.440$ m w.e. yr$^{-1}$, representing a rapid liquidation of ice reserves. Our methodology integrates pixel-wise temporal annualization based on a verified geographic split (CH1903+ Northing 1,094,000) and a Positive Degree Day (PDD) correction for seasonality. The results reveal a geodetic Equilibrium Line Altitude (ELA) of 3916 m a.s.l., effectively decapitating the glacier's accumulation zone. A comparison with glaciological records indicates a significant negative bias ($-1.036$ m w.e. yr$^{-1}$) in traditional point-based monitoring, emphasizing the importance of spatially complete geodetic assessments during extreme melt regimes.
+	\end{abstract}
+	
+	\section{Introduction}
+	European Alpine glaciers are currently undergoing a period of unprecedented mass loss, with the years 2022 and 2023 marking the most extreme melt events on record since the beginning of systematic monitoring. This ``glacier capital drawdown'' is driven by a combination of low winter snow accumulation and record-breaking summer heatwaves (Cremonese et al., 2023). Findelengletscher, a major valley glacier in the Valais Alps, has historically served as a benchmark for glaciological monitoring. However, as glaciers retreat into increasingly complex and debris-covered terrain, traditional point-based monitoring through ablation stakes faces significant challenges in spatial representativeness (Huss et al., 2015).
+	
+	The geodetic approach---calculating mass balance by differencing Digital Surface Models (DSMs)---provides a spatially continuous solution that captures total volumetric change across the entire glacier surface (Zemp et al., 2013). The accuracy of this method is dependent on the precision of the underlying elevation models and the rigorous handling of temporal offsets. 
+	
+	\textbf{The primary targets of this study are:}
+	\begin{enumerate}
+		\item \textbf{Generate High-Precision DSMs:} To process raw LiDAR point clouds from both baseline (2021/22) and terminal (2024) surveys into consistent 0.5 m resolution grids through automated morphological filtering.
+		\item \textbf{Quantify Geodetic Mass Balance:} To calculate the specific mass balance of Findelengletscher for the 2021/22--2024 study window.
+		\item \textbf{Account for Survey Offsets:} To implement a pixel-wise temporal annualization and a PDD seasonality correction based on metadata-verified flight dates.
+		\item \textbf{Analyze Hypsometric Sensitivity:} To evaluate altitude-dependent thinning and estimate the current ELA to assess the glacier's state of terminal disequilibrium.
+		\item \textbf{Identify Methodological Bias:} To compare geodetic results with GLAMOS glaciological measurements to identify potential underestimations in traditional networks.
+		\item \textbf{Characterize Uncertainty:} To perform a rigorous error propagation using 5,000 Monte Carlo simulations.
+	\end{enumerate}
+	
+	\section{Study Area and Data Sets}
+	Findelengletscher (13.50 km$^2$) is a temperate alpine glacier in the Zermatt region of Switzerland. It is characterized by a high-elevation accumulation plateau and a narrowing tongue that has shown rapid retreat in recent decades.
+	
+	\begin{itemize}
+		\item \textbf{Baseline LiDAR (Swisstopo SwissALT3D):} The reference elevation state was derived from the Swiss National LiDAR survey. Metadata analysis revealed a geographic temporal split: the northern sector of the glacier (CH1903+ Northing $>$ 1,094,000) was surveyed in 2021, while the southern sector was captured in 2022.
+		\item \textbf{Terminal Survey (September 2024):} A high-resolution DSM acquired at the conclusion of the 2024 melt season to provide the post-event elevation state.
+		\item \textbf{Flight Metadata:} Exact acquisition dates were extracted directly from flight logs to ensure precise temporal annualization and to facilitate the PDD seasonality correction.
+		\item \textbf{Glacier Inventory:} The SGI 2016 inventory provided the initial spatial mask for the ice body (Fischer et al., 2014).
+	\end{itemize}
+	
+	\section{Methodology}
+	
+	\subsection{UAV-based LiDAR vs. Traditional Glaciological Monitoring}
+	Traditional glaciological monitoring relies on a sparse network of ablation stakes, which are inherently limited by accessibility and spatial bias. Stakes primarily sample center-flow lines and may fail to capture high-intensity melt at glacier margins, stagnant ice patches, or retreating snouts. In contrast, UAV-based LiDAR provides a spatially continuous elevation dataset that samples the entire glacier surface at sub-meter resolution. This enables the detection of volumetric changes that are invisible to point-based measurements, such as the collapse of subglacial conduits, internal ablation, and non-linear thinning in heavily crevassed zones. Consequently, UAV-based geodetic audits act as a critical correction factor for traditional mass balance series, particularly during extreme melt years where terminus collapse dominates the volumetric signal (Zemp et al., 2013).
+	
+	\subsection{DSM Generation and Pre-processing}
+	Raw LiDAR returns from both 2021/22 and 2024 were processed using automated morphological filters to distinguish ``ground'' (ice or rock) from ``non-ground'' classes. The filtered point clouds were interpolated to a 0.5 m grid resolution using a triangulation-based interpolation (TIN) method to ensure a continuous surface across complex crevasse fields. Vertical consistency was verified by comparing DSM elevations over stable, non-glaciated terrain (rock outcrops) to ensure observed changes were glaciological rather than systematic sensor offsets (K\"{a}\"{a}b, 2005).
+	
+	\subsection{Temporal Annualization and PDD Seasonality Correction}
+	To resolve the multi-year baseline survey, a pixel-wise annualization map was implemented based on verified metadata. Pixels north of CH1903+ Northing 1,094,000 were assigned a 3-year duration (2021--2024), whereas southern pixels were assigned a 2-year duration (2022--2024).
+	
+	Furthermore, because baseline flights occurred in mid-summer, a seasonality correction was required to align the surveys with the hydrological year-end (Sept 30). A PDD model was employed utilizing a lapse rate of $-0.65^\circ$C/100m and a degree-day factor (DDF) of 7.5 mm d$^{-1}$ $^\circ$C$^{-1}$ for ice. We derived the following linear melt-elevation relationship:
+	\begin{equation}
+		Melt(z) = -0.000676 \cdot z + 2.8227
+	\end{equation}
+	This correction accounted for an additional $1.85 \pm 0.32$ m of vertical lowering at the snout and $0.45 \pm 0.12$ m on the upper plates, representing a major correction of 0.28 m w.e. yr$^{-1}$ to the final signal.
+	
+	\subsection{Monte Carlo Error Propagation}
+	Uncertainty was quantified via 5,000 Monte Carlo simulations, perturbing LiDAR precision ($\sigma = 0.20$ m), glacier area, and ice density ($850 \pm 60$ kg/m$^3$). This approach confirms that density uncertainty remains the largest contributor to geodetic error, yet the magnitude of loss remains far outside the margin of error (Huss, 2013).
+	
+	\section{Data Availability}
+	To ensure reproducibility and transparency in cryospheric research, the datasets and scripts utilized in this study---including the hypsometric SMB tables, the PDD regression models, and the Monte Carlo error propagation code---are available in the following public repository:
+	\begin{center}
+		\url{https://github.com/avinashparla/Findelen-Geodetic-Audit-2024}
+	\end{center}
+	
+	\section{Results}
+	The analysis reveals a mean annual elevation change of $-2.54$ m/yr, yielding a specific mass balance of $-2.155 \pm 0.440$ m w.e. yr$^{-1}$. Total volume loss over the study period is estimated at $-73.02$ million m$^3$.
+	
+	\begin{table}[H]
+		\centering
+		\caption{Final Statistical Results for Findelengletscher (2021/22--2024)}
+		\label{tab:results}
+		\begin{tabular}{lll}
+			\toprule
+			\textbf{Metric} & \textbf{Value} & \textbf{Unit} \\ \midrule
+			Glacier Area (SGI 2016) & 13.50 & km$^2$ \\
+			Mean Annual Elevation Change ($dH$) & -2.54 & m/yr \\
+			Geodetic Specific Mass Balance ($\dot{B}$) & $-2.155 \pm 0.440$ & m w.e. yr$^{-1}$ \\
+			Estimated Geodetic ELA (2021--2024) & 3916 & m a.s.l. \\
+			Total Volume Change & -73.02 & $10^6$ m$^3$ \\ \bottomrule
+		\end{tabular}
+	\end{table}
+	
+	\subsection{Hypsometry and ELA Decapitation}
+	The geodetic ELA was determined to be 3916 m a.s.l., placing nearly 95\% of the glacier surface within the ablation zone. As shown in Figure \ref{fig:smb_hypsometry}, the specific mass balance profile remains negative across the vast majority of the elevation range, indicating that the accumulation area has been effectively eliminated.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\textwidth]{results.jpg}
+		\caption{Findelengletscher Results: Hypsometric area distribution (shaded blue) and the Specific Mass Balance profile (red line).}
+		\label{fig:smb_hypsometry}
+	\end{figure}
+	
+	\section{Discussion}
+	
+	\subsection{Climate Forcing and Albedo Feedbacks}
+	The mass loss of $-2.155$ m w.e. yr$^{-1}$ reflects the catastrophic impact of the 2022--2023 heatwaves. A critical driver was the Saharan dust event of early 2022, which lowered the glacier's surface albedo and primed the ice for extreme radiation absorption. Our geodetic record captures the direct volumetric response, showing localized thinning peaks exceeding 8 m/yr at the tongue (Cremonese et al., 2023).
+	
+	\subsection{LiDAR vs. Glaciological Monitoring Bias}
+	A primary finding is the $-1.036$ m w.e. yr$^{-1}$ bias between our geodetic result and the glaciological mean. This discrepancy suggests that traditional point-measurements significantly under-sample total mass loss during extreme regimes where terminal collapse and internal ablation dominate. Spatially complete LiDAR surveys provide a superior audit of the total ``glacier capital drawdown.''
+	
+	\subsection{Terminal Disequilibrium}
+	The ELA of 3916 m a.s.l. is a diagnostic of severe crisis. With the ELA nearing the upper summits, Findelengletscher has effectively been ``decapitated,'' leaving no safe haven for snow storage. This indicates a state of terminal disequilibrium where the glacier can no longer sustain its mass, regardless of short-term weather variations (Huss et al., 2015).
+	
+	\section{Conclusion}
+	The 2021--2024 period represents an accelerated liquidation of ice reserves. The integration of high-resolution LiDAR with metadata-verified temporal splitting and PDD seasonality corrections reveals a mass loss intensity significantly higher than historically indicated by traditional records. Findelengletscher is in a state of terminal retreat, requiring urgent geodetic monitoring to quantify the remaining Alpine ice volume.
+	
+	\begin{thebibliography}{9}
+		\bibitem{cremonese2023} Cremonese, E., et al. (2023). Record-breaking glacier melt in the Swiss Alps during 2022. \textit{The Cryosphere Discussions}.
+		\bibitem{fischer2014} Fischer, M., et al. (2014). The new Swiss Glacier Inventory SGI2010. \textit{The Cryosphere}, 8(2).
+		\bibitem{glamos2025} GLAMOS (2025). Swiss Glacier Mass Balance, release 2025. \textit{Glacier Monitoring Switzerland}.
+		\bibitem{huss2013} Huss, M. (2013). Density assumptions for converting glacier volume change to mass change. \textit{The Cryosphere}, 7(3).
+		\bibitem{huss2015} Huss, M., et al. (2015). New long-term mass-balance series for the Swiss Alps. \textit{Journal of Glaciology}, 61(227).
+		\bibitem{zemp2013} Zemp, M., et al. (2013). Re-analysing glacier mass balance series. \textit{The Cryosphere}, 7(4).
+	\end{thebibliography}
+	
+\end{document}
